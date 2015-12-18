@@ -1,0 +1,40 @@
+#!/bin/sh
+
+check_file()
+{
+    if [ ! -d "$1" ]; then 
+        echo "error: $1 文件不存在\n"
+        exit;
+    fi 
+}
+
+if [ ! -n "$1" ];then
+    echo "\nerror: 请指定需要刻录的iso镜像文件"
+    echo "执行: burn_to_U_disk ***.iso\n"
+    exit
+fi
+
+check_file "$1"
+
+echo ""
+diskutil list
+echo ""
+echo "请指定需要刻录的U盘设备名称:(例如/dev/disk2)\n"
+read U_device
+
+if [ "$U_device" == "" ];then
+    echo "error: 未指定设备名称，自动退出\n"
+    exit
+fi
+
+echo "您指定的U盘设备名称为: $U_device\n" 
+
+if [ "$U_device" == "/dev/disk0" ] || [ "$U_device" == "/dev/disk1" ]; then
+    echo "error: 不允许指定系统磁盘!\n"
+    exit
+fi
+
+check_file "$U_device"
+
+echo "正在刻录文件到U盘，请稍后...(需要输入用户密码)\n"
+sudo dd if=$1 of=$U_device bs=1024k
