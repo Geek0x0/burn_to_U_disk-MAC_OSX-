@@ -14,7 +14,7 @@ if [ ! -n "$1" ];then
     exit
 fi
 
-check_file "$1"
+#check_file "$1"
 
 echo ""
 diskutil list
@@ -34,7 +34,7 @@ if [ "$U_device" == "/dev/disk0" ] || [ "$U_device" == "/dev/disk1" ]; then
     exit
 fi
 
-check_file "$U_device"
+#check_file "$U_device"
 
 echo "正在刻录文件到U盘，请稍后...(需要输入用户密码)\n"
 sudo dd if=$1 of=$U_device bs=1024k
